@@ -1,51 +1,44 @@
-# AI Course Generator & Prisma Creative Studio
+# AI Course Generator
 
-An advanced, full-stack Next.js application that integrates an AI-powered course creation platform with a gorgeous, dark, and cinematic landing page for a creative studio named **Prisma**.
-
----
-
-## 🎨 Prisma Landing Page features
-A dark, moody, and highly cinematic landing page that showcases visual arts and creative studio aesthetics.
-
-### 🌟 Sections:
-1. **Hero Section**:
-   - Inset responsive layout with container rounding (`rounded-2xl` to `md:rounded-[2rem]`).
-   - Autoplay, looped, and muted background video overlayed with a custom fractal noise SVG texture (`.noise-overlay`) and smooth bottom gradients.
-   - Glassmorphic floating pill navbar with smooth hover transitions.
-   - Giant header "Prisma" utilizing a custom `WordsPullUp` component with a superscript asterisk (`*`) on the final letter.
-   - Call to Action ("Join the lab") with responsive spacing and scaling animation on hover.
-
-2. **About Section**:
-   - Embedded inner card with a `#101010` backdrop.
-   - Rich multi-styled header statement using `WordsPullUpMultiStyle` combining normal typography with elegant italic serif font accenting ("a self-taught director").
-   - Scroll-linked character opacity reveal effect that gradually lights up text as you scroll past the paragraph.
-
-3. **Features Section**:
-   - 4-column responsive grid structure (`grid-cols-1 md:grid-cols-2 lg:grid-cols-4`).
-   - Staggered entry animation for all cards triggered once they enter the viewport.
-   - Interactive feature cards:
-     - **Card 1**: Autoplay background loop video illustrating the visual canvas.
-     - **Cards 2-4**: Smart Project Storyboards, AI Critiques, and Immersion Focus Capsule setups. Includes specific workflow checklist details, premium icons, and -45° rotated arrow details.
+AI Course Generator is an advanced, full-stack Next.js web application designed to automatically curate complete, structured, and visually engaging courses based on user-defined topics and goals. By pairing Google Gemini Generative AI with the YouTube API, the platform builds instant, personalized curriculums complete with educational videos and structured chapter lessons.
 
 ---
 
-## 🧠 AI Course Generator Core Features
-An automated course builder that leverages generative AI to dynamically curate complete courses including text, structure, and videos.
+## ✨ Core Functions & Features
 
-### ⚡ Key Capabilities:
-* **Interactive Course Wizard**: Select Category, add topics, describe goals, select course duration, difficulty levels, number of chapters, and toggle video integration.
-* **Google Gemini AI Integration**: Generates structured JSON outputs defining course outlines, chapter goals, and comprehensive texts.
-* **YouTube Video Syncing**: Integrates automated YouTube API lookups to embed contextually accurate, relevant videos for each chapter.
-* **Database Persistence**: Powered by **Drizzle ORM** with schema definitions for `courseList` and `chapters` storing structural JSON nodes.
-* **Secure Authentication**: Integrated with **Clerk Auth** for user login, custom profiles, and secure metadata synchronization.
-* **Publishing & Sharing**: Dashboard tracking for created courses, course banner templates, and toggleable public sharing routes.
+### 1. 🧠 AI-Powered Course Creation Wizard
+* **Category Selection**: Users choose from a variety of categories (e.g., Tech, Health, Business, Creative Arts) to guide the generator.
+* **Personalized Prompts**: Custom input for course topics and descriptions allows the AI to tailor content to specific learning goals.
+* **Duration & Difficulty Tuning**: Customize course depth by specifying difficulty levels (Beginner, Intermediate, Advanced) and exact chapter counts.
+* **Generative Outline Engine**: Leverages Google Gemini AI to dynamically draft a complete course curriculum, including chapter summaries, key concepts, and structured text lessons.
+
+### 2. 📺 Automated YouTube Video Syncing
+* **Relevant Media Placement**: The application performs automated YouTube API lookups for each generated chapter.
+* **Integrated Video Player**: Embeds contextually accurate educational videos directly alongside text lessons, creating an immersive, multi-modal learning experience.
+
+### 3. 👥 User Management & Dashboard
+* **Secure Authentication**: Integrated with Clerk Auth for secure sign-ups, sign-ins, and user profile management.
+* **Interactive Dashboard**: Track and manage all generated courses in one place, complete with course banner templates.
+* **Course Shareability**: Toggle courses between public and private settings to share custom learning paths with others.
+
+### 4. 🗄️ Robust Data Persistence
+* **PostgreSQL Database**: Powered by Supabase and Drizzle ORM for fast, type-safe database queries.
+* **Schema Architectures**: Custom relational schemas for tracking user courses (`CourseList`) and deep lesson details (`Chapters`).
+
+---
+
+## 💡 Key Benefits
+* **Zero Manual Planning**: Instantly structures any complex topic into sequential, digestible lessons, saving hours of curriculum planning.
+* **Multi-Modal Learning**: Combines rich AI-generated written content with curated visual video lessons.
+* **Highly Tailored Content**: Adapts content complexity and length dynamically to match the user's current skill level and target time commitments.
+* **Scalable Architecture**: Built on Next.js 14, Clerk, Supabase, and Drizzle, making it an excellent blueprint for SaaS production projects.
 
 ---
 
 ## 🛠️ Tech Stack
 * **Framework**: Next.js 14 (App Router)
-* **Styling**: Tailwind CSS, Vanilla CSS (fractal noise SVG overlays)
-* **Database & ORM**: Supabase, Drizzle ORM, Neon PostgreSQL serverless
+* **Styling**: Tailwind CSS
+* **Database & ORM**: Supabase, Drizzle ORM, Neon PostgreSQL
 * **AI Provider**: `@google/generative-ai` (Gemini API)
 * **Auth**: Clerk
 * **Animations**: Framer Motion
@@ -61,7 +54,7 @@ npm install
 ```
 
 ### 2. Set Up Environment Variables
-Create a `.env` or `.env.local` file at the root of the project with the following variables:
+Create a `.env` file at the root of the project with the following variables:
 ```env
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_pub_key
 CLERK_SECRET_KEY=your_clerk_secret_key
@@ -74,8 +67,7 @@ YOUTUBE_API_KEY=your_youtube_api_key
 DATABASE_URL=your_database_url
 ```
 
-### 3. Spin Up the Database
-Sync your PostgreSQL database with the Drizzle schema:
+### 3. Push Database Schema
 ```bash
 npm run db:push
 ```
@@ -85,4 +77,4 @@ npm run db:push
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to view the active dev application.
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the active application.
