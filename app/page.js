@@ -10,7 +10,12 @@ import {
   ScrollRevealParagraph,
 } from "./_components/PrismaComponents";
 
-const navItems = ["Our story", "Collective", "Workshops", "Programs", "Inquiries"];
+const navItems = [
+  { name: "How It Works", href: "#how-it-works" },
+  { name: "Features", href: "#features" },
+  { name: "Benefits", href: "#benefits" },
+  { name: "Dashboard", href: "/dashboard" }
+];
 
 function Navbar() {
   const [hoveredIdx, setHoveredIdx] = useState(null);
@@ -21,7 +26,7 @@ function Navbar() {
         {navItems.map((item, idx) => (
           <a
             key={idx}
-            href={`#${item.toLowerCase().replace(" ", "-")}`}
+            href={item.href}
             style={{
               color: hoveredIdx === idx ? "#E1E0CC" : "rgba(225, 224, 204, 0.8)",
             }}
@@ -29,7 +34,7 @@ function Navbar() {
             onMouseLeave={() => setHoveredIdx(null)}
             className="text-[10px] sm:text-xs md:text-sm font-medium transition-colors duration-200 whitespace-nowrap cursor-pointer"
           >
-            {item}
+            {item.name}
           </a>
         ))}
       </div>
@@ -94,24 +99,41 @@ function HeroSection() {
                 traditional curriculum planning, empowering you to master any subject at your own pace.
               </motion.p>
 
-              {/* CTA Button */}
-              <Link href="/sign-in" className="inline-block">
-                <motion.button
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{
-                    delay: 0.7,
-                    duration: 0.8,
-                    ease: [0.16, 1, 0.3, 1],
-                  }}
-                  className="group flex items-center bg-primary rounded-full pl-6 pr-2 py-2 text-black font-medium text-sm sm:text-base transition-all duration-300 gap-2 hover:gap-3 cursor-pointer"
-                >
-                  <span>Sign in</span>
-                  <span className="bg-black rounded-full w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-                    <ArrowRight className="w-5 h-5" style={{ color: "#DEDBC8" }} />
-                  </span>
-                </motion.button>
-              </Link>
+              {/* CTA Buttons */}
+              <div className="flex flex-wrap gap-4 items-center">
+                <Link href="/sign-up" className="inline-block">
+                  <motion.button
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{
+                      delay: 0.7,
+                      duration: 0.8,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                    className="group flex items-center bg-primary rounded-full pl-6 pr-2 py-2 text-black font-medium text-sm sm:text-base transition-all duration-300 gap-2 hover:gap-3 cursor-pointer select-none"
+                  >
+                    <span>Sign up</span>
+                    <span className="bg-black rounded-full w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                      <ArrowRight className="w-5 h-5" style={{ color: "#DEDBC8" }} />
+                    </span>
+                  </motion.button>
+                </Link>
+
+                <Link href="/sign-in" className="inline-block">
+                  <motion.button
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{
+                      delay: 0.8,
+                      duration: 0.8,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                    className="flex items-center border border-primary/50 text-primary rounded-full px-6 py-3 font-medium text-sm sm:text-base transition-all duration-300 hover:bg-primary/10 cursor-pointer select-none"
+                  >
+                    <span>Sign in</span>
+                  </motion.button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -120,22 +142,22 @@ function HeroSection() {
   );
 }
 
-function AboutSection() {
+function BenefitsSection() {
   const segments = [
-    { text: "I am Marcus Chen, ", className: "font-normal" },
-    { text: "a self-taught director. ", className: "italic font-serif" },
+    { text: "Your personal AI tutor, ", className: "font-normal" },
+    { text: "available 24/7. ", className: "italic font-serif" },
     {
-      text: "I have skills in color grading, visual effects, and narrative design.",
+      text: "Craft custom learning paths tailored to your level, goals, and schedule.",
       className: "font-normal",
     },
   ];
 
   return (
-    <section className="bg-black py-24 px-4 md:px-8 flex justify-center items-center">
+    <section id="benefits" className="bg-black py-24 px-4 md:px-8 flex justify-center items-center">
       <div className="bg-[#101010] rounded-3xl p-8 md:p-16 max-w-6xl w-full text-center flex flex-col items-center gap-8 shadow-2xl">
         {/* Label */}
         <span className="text-primary text-[10px] sm:text-xs uppercase tracking-widest font-semibold">
-          Visual arts
+          Personalized Learning
         </span>
 
         {/* Heading */}
@@ -148,7 +170,7 @@ function AboutSection() {
 
         {/* Paragraph with Scroll-linked reveal */}
         <ScrollRevealParagraph
-          text="Over the last seven years, I have worked with Parallax, a Berlin-based production house that crafts cinema, series, and Noir Studio in Paris. Together, we have created work that has earned international acclaim at several major festivals."
+          text="Prisma harnesses the power of advanced Gemini AI and YouTube APIs to create structured curriculums with contextually-relevant videos in seconds. Enter a topic, choose your category, tune the difficulty level, and start learning immediately without any manual course-planning overhead."
           className="text-[#DEDBC8] text-xs sm:text-sm md:text-base max-w-2xl mx-auto leading-relaxed mt-4"
         />
       </div>
@@ -158,8 +180,8 @@ function AboutSection() {
 
 function FeaturesSection() {
   const headerSegments = [
-    { text: "Studio-grade workflows for visionary creators. ", className: "font-normal" },
-    { text: "Built for pure vision. Powered by art.", className: "text-gray-500 font-normal" },
+    { text: "Dynamic features to accelerate your learning. ", className: "font-normal" },
+    { text: "Tailored to your needs. Powered by Generative AI.", className: "text-gray-500 font-normal" },
   ];
 
   const gridRef = useRef(null);
@@ -187,7 +209,7 @@ function FeaturesSection() {
   };
 
   return (
-    <section className="min-h-screen bg-black py-24 px-4 md:px-8 relative overflow-hidden">
+    <section id="features" className="min-h-screen bg-black py-24 px-4 md:px-8 relative overflow-hidden">
       {/* Background noise filter */}
       <div className="absolute inset-0 bg-noise opacity-[0.15] pointer-events-none" />
 
@@ -224,11 +246,11 @@ function FeaturesSection() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
           <h3 className="relative text-lg font-medium text-[#E1E0CC] z-10">
-            Your creative canvas.
+            Interactive course dashboard.
           </h3>
         </motion.div>
 
-        {/* Card 2 - Project Storyboard */}
+        {/* Card 2 - AI Course Builder */}
         <motion.div
           variants={cardVariants}
           className="bg-[#212121] rounded-2xl p-6 flex flex-col justify-between h-[350px] lg:h-full group hover:bg-[#252525] transition-all duration-300 border border-neutral-800"
@@ -237,19 +259,19 @@ function FeaturesSection() {
             <div className="flex justify-between items-start">
               <img
                 src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171918_4a5edc79-d78f-4637-ac8b-53c43c220606.png&w=1280&q=85"
-                alt="Storyboard Icon"
+                alt="AI Course Builder Icon"
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded object-cover"
               />
               <span className="text-gray-500 font-mono text-sm">01</span>
             </div>
-            <h3 className="text-lg font-medium text-[#E1E0CC] mt-2">Project Storyboard.</h3>
+            <h3 className="text-lg font-medium text-[#E1E0CC] mt-2">AI Course Builder.</h3>
 
             <ul className="flex flex-col gap-2 mt-2">
               {[
-                "Shot structure planning",
-                "Visual asset tracking",
-                "Multi-user collaboration",
-                "Cinematic preview rendering",
+                "Custom category selection",
+                "Difficulty & duration tuning",
+                "Gemini outline generator",
+                "Structured text lessons",
               ].map((item, idx) => (
                 <li key={idx} className="flex items-center gap-2 text-xs sm:text-sm">
                   <Check className="w-4 h-4 text-primary shrink-0" />
@@ -259,16 +281,16 @@ function FeaturesSection() {
             </ul>
           </div>
 
-          <a
-            href="#"
+          <Link
+            href="/dashboard"
             className="flex items-center gap-1 text-xs sm:text-sm text-[#E1E0CC] font-medium mt-4 group/link self-start"
           >
             <span>Learn more</span>
             <ArrowRight className="w-4 h-4 transform -rotate-45 transition-transform duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
-          </a>
+          </Link>
         </motion.div>
 
-        {/* Card 3 - Smart Critiques */}
+        {/* Card 3 - Automated Video Sync */}
         <motion.div
           variants={cardVariants}
           className="bg-[#212121] rounded-2xl p-6 flex flex-col justify-between h-[350px] lg:h-full group hover:bg-[#252525] transition-all duration-300 border border-neutral-800"
@@ -277,18 +299,19 @@ function FeaturesSection() {
             <div className="flex justify-between items-start">
               <img
                 src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171741_ed9845ab-f5b2-4018-8ce7-07cc01823522.png&w=1280&q=85"
-                alt="Critiques Icon"
+                alt="Video Sync Icon"
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded object-cover"
               />
               <span className="text-gray-500 font-mono text-sm">02</span>
             </div>
-            <h3 className="text-lg font-medium text-[#E1E0CC] mt-2">Smart Critiques.</h3>
+            <h3 className="text-lg font-medium text-[#E1E0CC] mt-2">Video Sync.</h3>
 
             <ul className="flex flex-col gap-2 mt-2">
               {[
-                "Real-time AI analysis",
-                "Creative director notes",
-                "Tool and NLE integrations",
+                "YouTube API integration",
+                "Relevant media lookup",
+                "Embedded video player",
+                "Multi-modal curriculum",
               ].map((item, idx) => (
                 <li key={idx} className="flex items-center gap-2 text-xs sm:text-sm">
                   <Check className="w-4 h-4 text-primary shrink-0" />
@@ -298,16 +321,16 @@ function FeaturesSection() {
             </ul>
           </div>
 
-          <a
-            href="#"
+          <Link
+            href="/dashboard"
             className="flex items-center gap-1 text-xs sm:text-sm text-[#E1E0CC] font-medium mt-4 group/link self-start"
           >
             <span>Learn more</span>
             <ArrowRight className="w-4 h-4 transform -rotate-45 transition-transform duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
-          </a>
+          </Link>
         </motion.div>
 
-        {/* Card 4 - Immersion Capsule */}
+        {/* Card 4 - Secure Dashboard */}
         <motion.div
           variants={cardVariants}
           className="bg-[#212121] rounded-2xl p-6 flex flex-col justify-between h-[350px] lg:h-full group hover:bg-[#252525] transition-all duration-300 border border-neutral-800"
@@ -316,18 +339,19 @@ function FeaturesSection() {
             <div className="flex justify-between items-start">
               <img
                 src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171809_f56666dc-c099-4778-ad82-9ad4f209567b.png&w=1280&q=85"
-                alt="Immersion Icon"
+                alt="Secure Dashboard Icon"
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded object-cover"
               />
               <span className="text-gray-500 font-mono text-sm">03</span>
             </div>
-            <h3 className="text-lg font-medium text-[#E1E0CC] mt-2">Immersion Capsule.</h3>
+            <h3 className="text-lg font-medium text-[#E1E0CC] mt-2">Manage & Share.</h3>
 
             <ul className="flex flex-col gap-2 mt-2">
               {[
-                "Notification silencing",
-                "Ambient soundscapes",
-                "Schedule syncing",
+                "Clerk secured auth",
+                "Personal course history",
+                "Public/Private visibility",
+                "Share learning paths",
               ].map((item, idx) => (
                 <li key={idx} className="flex items-center gap-2 text-xs sm:text-sm">
                   <Check className="w-4 h-4 text-primary shrink-0" />
@@ -337,15 +361,66 @@ function FeaturesSection() {
             </ul>
           </div>
 
-          <a
-            href="#"
+          <Link
+            href="/dashboard"
             className="flex items-center gap-1 text-xs sm:text-sm text-[#E1E0CC] font-medium mt-4 group/link self-start"
           >
             <span>Learn more</span>
             <ArrowRight className="w-4 h-4 transform -rotate-45 transition-transform duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
-          </a>
+          </Link>
         </motion.div>
       </motion.div>
+    </section>
+  );
+}
+
+function HowItWorksSection() {
+  const steps = [
+    {
+      step: "01",
+      title: "Choose Category",
+      desc: "Select a topic area like Tech, Health, Business, or Creative Arts to anchor the course scope.",
+    },
+    {
+      step: "02",
+      title: "Configure Options",
+      desc: "Specify your exact topic details, choose your difficulty level, and set the duration and chapter counts.",
+    },
+    {
+      step: "03",
+      title: "Generate & Study",
+      desc: "Our Gemini AI outline engine works with the YouTube API to instantly generate structured text lessons and sync relevant videos.",
+    },
+  ];
+
+  return (
+    <section id="how-it-works" className="bg-[#0c0c0c] py-24 px-4 md:px-8 border-y border-neutral-900">
+      <div className="max-w-6xl mx-auto">
+        <span className="text-primary text-[10px] sm:text-xs uppercase tracking-widest font-semibold block text-center mb-4">
+          Three Simple Steps
+        </span>
+        <h2 className="text-3xl md:text-5xl font-medium text-center text-[#E1E0CC] mb-16 tracking-tight">
+          How it works.
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {steps.map((item, idx) => (
+            <div
+              key={idx}
+              className="bg-[#151515] rounded-2xl p-8 border border-neutral-800 flex flex-col justify-between h-[250px] relative overflow-hidden group hover:border-primary/30 transition-all duration-300"
+            >
+              <div className="absolute -right-4 -top-8 text-[8rem] font-bold text-neutral-800/10 pointer-events-none select-none">
+                {item.step}
+              </div>
+              <div className="flex flex-col gap-4">
+                <span className="text-primary font-mono text-sm font-semibold">{item.step}</span>
+                <h3 className="text-xl font-medium text-[#E1E0CC]">{item.title}</h3>
+                <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
@@ -354,7 +429,8 @@ export default function Home() {
   return (
     <div className="bg-black text-[#E1E0CC] min-h-screen">
       <HeroSection />
-      <AboutSection />
+      <BenefitsSection />
+      <HowItWorksSection />
       <FeaturesSection />
     </div>
   );
