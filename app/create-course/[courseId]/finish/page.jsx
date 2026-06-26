@@ -99,7 +99,9 @@ function FinishScreen({ params }) {
           <CourseBasicInfo course={course} refreshData={GetCourse} />
           <div className="flex justify-center">
             <Link href="/dashboard">
-              <Button className="mt-5">Go to Dashboard</Button>
+              <button className="mt-6 bg-[#DEDBC8] hover:bg-[#E1E0CC] text-black font-semibold text-xs sm:text-sm rounded-full px-6 py-3 transition-all duration-300 hover:scale-105 active:scale-95 shadow-md flex items-center justify-center">
+                Go to Dashboard
+              </button>
             </Link>
           </div>
           <h2 className="mt-3">Course URL : </h2>
