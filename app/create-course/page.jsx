@@ -8,7 +8,7 @@ import SelectCategory from './_components/SelectCategory';
 import Options from './_components/Options';
 import TopicAndDesc from './_components/TopicAndDesc';
 import { UserInputContext } from "../_context/UserInputContext";
-import {GenerateCourseLayout_AI } from '@/configs/AiModel';
+import {GenerateCourseLayout_AI } from '@/configs/aiModel';
 import LoadingDialog from './_components/LoadingDialog';
 import { useUser } from '@clerk/nextjs';
 import uuid4 from 'uuid4';

@@ -10,8 +10,8 @@ import { Button } from '@/components/ui/button'
 import CourseBasicInfo from './_components/CourseBasicInfo'
 import CourseDetail from './_components/CourseDetail'
 import ChapterList from './_components/ChapterList'
-import { GenerateChapterContent_AI } from "@/configs/AiModel";
-import getVideos from "@/configs/service";
+import { GenerateChapterContent_AI } from "@/configs/aiModel";
+import getVideos from "@/configs/youtubeService";
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/hooks/use-toast'
 
