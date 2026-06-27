@@ -78,42 +78,40 @@ In the modern digital landscape, finding a structured learning curriculum requir
 
 ## System Architecture
 
-The following block diagram represents the relationship between the client user interface, the serverless database persistence layer, API connectors, and external microservices:
+The following block diagram represents the relationship between the client browser interface, the serverless database persistence layer, API connectors, and external microservices:
 
 ```mermaid
 graph TD
-    subgraph Client Space ["Client Space"]
-        UI["React 18 Client UI<br/>(Tailwind CSS / Framer Motion)"]
-        UploadComponent["Supabase Client SDK<br/>(Direct Image Uploads)"]
+    subgraph Browser ["Client Browser Environment"]
+        UI["React 18 Client Application<br/>(Tailwind CSS / Framer Motion)"]
+        GeminiSDK["Google Generative AI SDK Client"]
+        DrizzleClient["Drizzle ORM & Neon Serverless HTTP Client"]
+        SupabaseSDK["Supabase Storage Client SDK"]
     end
 
-    subgraph Authentication ["Authentication Layer"]
-        Clerk["Clerk Auth Service<br/>(JWT Tokens & Session Guard)"]
+    subgraph Authentication ["Authentication Provider"]
+        Clerk["Clerk Auth Service<br/>(JWT Token & Session Management)"]
     end
 
-    subgraph Backend Engine ["Backend Engine"]
-        NextServer["Next.js Server API Routes<br/>(App Router Pages & Handlers)"]
+    subgraph Third Party APIs ["External Serverless APIs"]
+        Gemini["Google Gemini API<br/>(gemini-1.5-flash)"]
+        YouTube["YouTube Data API v3"]
     end
 
-    subgraph External Interfaces ["AI & Content Services"]
-        Gemini["Google Gemini API<br/>(gemini-1.5-flash / Structured Output)"]
-        YouTube["YouTube Data API v3<br/>(Contextual Video Search)"]
-    end
-
-    subgraph Storage & Persistence ["Database & File Storage"]
-        Drizzle["Drizzle ORM Engine"]
+    subgraph Data & Assets ["Cloud Storage & Databases"]
         PostgreSQL["Neon Serverless PostgreSQL DB"]
         Supabase["Supabase Storage Buckets<br/>(ai-course bucket)"]
     end
 
     %% Interactions
-    UI -. Secure Session Validation .-> Clerk
-    UI -- Request Course Creation & Details --> NextServer
-    UploadComponent -- Direct Banner Upload --> Supabase
-    NextServer -- Schema Query & Mutations --> Drizzle
-    Drizzle -- PostgreSQL TCP/HTTP Protocol --> PostgreSQL
-    NextServer -- Structured Prompting (JSON Schema) --> Gemini
-    NextServer -- Fetch Topic-Specific Video Lists --> YouTube
+    UI -- Auth Tokens & Profile Session --> Clerk
+    UI -- Direct Prompting (JSON Schema) --> GeminiSDK
+    GeminiSDK -- REST Request --> Gemini
+    UI -- Database Queries & Mutations --> DrizzleClient
+    DrizzleClient -- HTTP connection --> PostgreSQL
+    UI -- Upload/Delete Banner Image --> SupabaseSDK
+    SupabaseSDK -- Upload Asset Payload --> Supabase
+    UI -- Fetch Video Search results --> YouTube
 ```
 
 ---
@@ -125,32 +123,30 @@ The sequential steps from a user defining a course configuration to reading the 
 ```mermaid
 sequenceDiagram
     autonumber
-    actor User as User (Client UI)
-    participant Next as Next.js API Server
+    actor User as User (Client Browser UI)
     participant Gemini as Google Gemini API
     participant YouTube as YouTube Data API
-    participant DB as Neon PostgreSQL (Drizzle)
+    participant DB as Neon PostgreSQL (via Drizzle ORM)
     participant Supabase as Supabase Storage
 
     User->>Supabase: [Optional] Upload Custom Course Banner Image
     Supabase-->>User: Return Public CDN Asset URL
-    User->>Next: Submit course preferences (Topic, Categories, Difficulty, Custom Banner, Video Toggle)
-    Next->>Gemini: Request course outline layout based on configuration
-    Gemini-->>Next: Return structured JSON (Chapter titles, durations, goals, summaries)
-    Next->>DB: Write parent course outline config (publish=false, schema JSON)
-    Next-->>User: Complete initial outline creation; redirect to progress compiler page
-    User->>Next: Trigger lesson expansion generation API
+    User->>Gemini: Request course outline layout based on configuration
+    Gemini-->>User: Return structured JSON (Chapter titles, durations, goals, summaries)
+    User->>DB: Write parent course outline config (publish=false, schema JSON)
+    User->>User: Redirect page to Dynamic Layout Progress panel (/create-course/[courseId])
+    User->>User: Click "Generate Course Content"
     loop For Each Chapter in Course Outline
-        Next->>Gemini: Request deep text lesson & code templates (precode syntax blocks)
-        Gemini-->>Next: Return structured lesson markdown contents
+        User->>Gemini: Request deep text lesson & code templates (precode syntax blocks)
+        Gemini-->>User: Return structured lesson content JSON
         alt Include Video == 'Yes'
-            Next->>YouTube: Query matching videos (Topic Name + Chapter Title)
-            YouTube-->>Next: Return top educational Video IDs
+            User->>YouTube: Query matching videos (Topic Name + Chapter Title)
+            YouTube-->>User: Return top educational Video IDs
         end
-        Next->>DB: Write chapter payload mapping to database chapters table
+        User->>DB: Write chapter payload mapping to database chapters table
     end
-    Next->>DB: Set CourseList publish status flag to TRUE
-    Next-->>User: Redirect to Interactive Learning Portal & enable lesson navigation
+    User->>DB: Set CourseList publish status flag to TRUE
+    User->>User: Redirect to Interactive Course Viewer UI (/create-course/[courseId]/finish)
 ```
 
 ---
