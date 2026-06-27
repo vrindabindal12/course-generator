@@ -76,29 +76,34 @@ const CourseBasicInfo = ({ course, refreshData, edit = true }) => {
   };
 
   return (
-    <div className="p-10 border rounded-xl shadow-sm mt-5">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+    <div className="p-8 md:p-10 border border-neutral-800 bg-[#101010] rounded-2xl shadow-lg mt-5 relative overflow-hidden">
+      <div className="absolute inset-0 noise-overlay opacity-[0.03] pointer-events-none" />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center relative z-10">
         <div>
-          <h2 className="text-3xl font-bold flex gap-1">
+          <h2 className="text-2xl md:text-3xl font-medium text-[#E1E0CC] tracking-tight flex gap-2 items-center">
             {course?.courseOutput?.CourseName}
           </h2>
           {edit && (
-            <EditCourseBasicInfo course={course} size={50} refreshData={() => refreshData(true)} />
+            <div className="mt-2">
+              <EditCourseBasicInfo course={course} size={50} refreshData={() => refreshData(true)} />
+            </div>
           )}
-          <p className="text-sm text-gray-400 mt-3">{course?.courseOutput?.Description}</p>
-          <h2 className="font-medium mt-2 flex gap-2 items-center text-primary">
-            <HiOutlinePuzzle size={20} />
+          <p className="text-sm text-neutral-400 mt-4 leading-relaxed">{course?.courseOutput?.Description}</p>
+          <h2 className="font-semibold mt-4 flex gap-2 items-center text-primary text-xs uppercase tracking-widest">
+            <HiOutlinePuzzle size={18} />
             {course?.category}
           </h2>
           {!edit && (
-            <Link href={`/course/${course?.courseId}/start`}>
-              <Button className="w-full mt-5">Start</Button>
+            <Link href={`/course/${course?.courseId}/start`} className="block w-full mt-6">
+              <Button className="w-full py-6 rounded-full bg-primary text-black hover:bg-[#c9c6b3] font-semibold text-sm shadow-md transition-transform duration-200 active:scale-95">
+                Start Course
+              </Button>
             </Link>
           )}
         </div>
 
-        <div>
-          <label htmlFor="upload-image" className="cursor-pointer block">
+        <div className="overflow-hidden rounded-xl border border-neutral-800/80 bg-neutral-950">
+          <label htmlFor="upload-image" className="cursor-pointer block relative group">
             <Image
               src={selectedFile ? selectedFile : course?.courseBanner || "/placeholder.png"}
               quality={100}
@@ -106,7 +111,7 @@ const CourseBasicInfo = ({ course, refreshData, edit = true }) => {
               alt="Course banner"
               width={300}
               height={300}
-              className="w-full rounded-xl object-cover h-[250px]"
+              className="w-full object-cover h-[250px] transition-transform duration-500 group-hover:scale-103"
             />
           </label>
           {edit && (
