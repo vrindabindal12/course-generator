@@ -3,7 +3,7 @@
 import React, { useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
-import { ArrowRight, Check, X } from "lucide-react";
+import { ArrowRight, Check, X, LayoutDashboard } from "lucide-react";
 import {
   WordsPullUp,
   WordsPullUpMultiStyle,
@@ -195,6 +195,35 @@ function BenefitsSection() {
   );
 }
 
+function SpotlightCard({ children, className = "", variants }) {
+  const [coords, setCoords] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setCoords({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
+  return (
+    <motion.div
+      variants={variants}
+      onMouseMove={handleMouseMove}
+      className={`relative overflow-hidden group transition-all duration-300 border border-neutral-800/80 ${className}`}
+    >
+      {/* Background radial spotlight glow */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 z-10"
+        style={{
+          background: `radial-gradient(350px circle at ${coords.x}px ${coords.y}px, rgba(222, 219, 200, 0.08), transparent 80%)`,
+        }}
+      />
+      {children}
+    </motion.div>
+  );
+}
+
 function FeaturesSection() {
   const headerSegments = [
     { text: "Dynamic features to accelerate your learning. ", className: "font-normal" },
@@ -248,38 +277,57 @@ function FeaturesSection() {
         animate={isGridInView ? "visible" : "hidden"}
         className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 lg:h-[480px] gap-3 sm:gap-2 md:gap-1"
       >
-        {/* Card 1 - Video Card */}
-        <motion.div
+        {/* Card 1 - Interactive course dashboard */}
+        <SpotlightCard
           variants={cardVariants}
-          className="relative rounded-2xl overflow-hidden h-[350px] lg:h-full flex flex-col justify-end p-6 group border border-neutral-900"
+          className="bg-[#212121] rounded-2xl p-6 flex flex-col justify-between h-[350px] lg:h-full group hover:bg-[#252525] transition-all duration-300 border border-neutral-800 hover:border-primary/30"
         >
-          <video
-            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260406_133058_0504132a-0cf3-4450-a370-8ea3b05c95d4.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
-          <h3 className="relative text-lg font-medium text-[#E1E0CC] z-10">
-            Interactive course dashboard.
-          </h3>
-        </motion.div>
+          <div className="flex flex-col gap-4 relative z-20">
+            <div className="flex justify-between items-start">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-neutral-800 rounded flex items-center justify-center text-primary">
+                <LayoutDashboard className="w-5 h-5 sm:w-6 sm:h-6" />
+              </div>
+              <span className="text-gray-500 font-mono text-sm">01</span>
+            </div>
+            <h3 className="text-lg font-medium text-[#E1E0CC] mt-2">Interactive Dashboard.</h3>
+
+            <ul className="flex flex-col gap-2 mt-2">
+              {[
+                "Track chapter progress",
+                "Interactive lecture viewer",
+                "Personalized course library",
+                "Seamless lesson navigation",
+              ].map((item, idx) => (
+                <li key={idx} className="flex items-center gap-2 text-xs sm:text-sm">
+                  <Check className="w-4 h-4 text-primary shrink-0" />
+                  <span className="text-gray-400">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <Link
+            href="/dashboard"
+            className="flex items-center gap-1 text-xs sm:text-sm text-[#E1E0CC] font-medium mt-4 group/link self-start relative z-20"
+          >
+            <span>Learn more</span>
+            <ArrowRight className="w-4 h-4 transform -rotate-45 transition-transform duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
+          </Link>
+        </SpotlightCard>
 
         {/* Card 2 - AI Course Builder */}
-        <motion.div
+        <SpotlightCard
           variants={cardVariants}
-          className="bg-[#212121] rounded-2xl p-6 flex flex-col justify-between h-[350px] lg:h-full group hover:bg-[#252525] transition-all duration-300 border border-neutral-800"
+          className="bg-[#212121] rounded-2xl p-6 flex flex-col justify-between h-[350px] lg:h-full group hover:bg-[#252525] transition-all duration-300 border border-neutral-800 hover:border-primary/30"
         >
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 relative z-20">
             <div className="flex justify-between items-start">
               <img
                 src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171918_4a5edc79-d78f-4637-ac8b-53c43c220606.png&w=1280&q=85"
                 alt="AI Course Builder Icon"
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded object-cover"
               />
-              <span className="text-gray-500 font-mono text-sm">01</span>
+              <span className="text-gray-500 font-mono text-sm">02</span>
             </div>
             <h3 className="text-lg font-medium text-[#E1E0CC] mt-2">AI Course Builder.</h3>
 
@@ -300,26 +348,26 @@ function FeaturesSection() {
 
           <Link
             href="/dashboard"
-            className="flex items-center gap-1 text-xs sm:text-sm text-[#E1E0CC] font-medium mt-4 group/link self-start"
+            className="flex items-center gap-1 text-xs sm:text-sm text-[#E1E0CC] font-medium mt-4 group/link self-start relative z-20"
           >
             <span>Learn more</span>
             <ArrowRight className="w-4 h-4 transform -rotate-45 transition-transform duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
           </Link>
-        </motion.div>
+        </SpotlightCard>
 
-        {/* Card 3 - Automated Video Sync */}
-        <motion.div
+        {/* Card 3 - Video Sync */}
+        <SpotlightCard
           variants={cardVariants}
-          className="bg-[#212121] rounded-2xl p-6 flex flex-col justify-between h-[350px] lg:h-full group hover:bg-[#252525] transition-all duration-300 border border-neutral-800"
+          className="bg-[#212121] rounded-2xl p-6 flex flex-col justify-between h-[350px] lg:h-full group hover:bg-[#252525] transition-all duration-300 border border-neutral-800 hover:border-primary/30"
         >
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 relative z-20">
             <div className="flex justify-between items-start">
               <img
                 src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171741_ed9845ab-f5b2-4018-8ce7-07cc01823522.png&w=1280&q=85"
                 alt="Video Sync Icon"
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded object-cover"
               />
-              <span className="text-gray-500 font-mono text-sm">02</span>
+              <span className="text-gray-500 font-mono text-sm">03</span>
             </div>
             <h3 className="text-lg font-medium text-[#E1E0CC] mt-2">Video Sync.</h3>
 
@@ -340,26 +388,26 @@ function FeaturesSection() {
 
           <Link
             href="/dashboard"
-            className="flex items-center gap-1 text-xs sm:text-sm text-[#E1E0CC] font-medium mt-4 group/link self-start"
+            className="flex items-center gap-1 text-xs sm:text-sm text-[#E1E0CC] font-medium mt-4 group/link self-start relative z-20"
           >
             <span>Learn more</span>
             <ArrowRight className="w-4 h-4 transform -rotate-45 transition-transform duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
           </Link>
-        </motion.div>
+        </SpotlightCard>
 
         {/* Card 4 - Secure Dashboard */}
-        <motion.div
+        <SpotlightCard
           variants={cardVariants}
-          className="bg-[#212121] rounded-2xl p-6 flex flex-col justify-between h-[350px] lg:h-full group hover:bg-[#252525] transition-all duration-300 border border-neutral-800"
+          className="bg-[#212121] rounded-2xl p-6 flex flex-col justify-between h-[350px] lg:h-full group hover:bg-[#252525] transition-all duration-300 border border-neutral-800 hover:border-primary/30"
         >
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 relative z-20">
             <div className="flex justify-between items-start">
               <img
                 src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171809_f56666dc-c099-4778-ad82-9ad4f209567b.png&w=1280&q=85"
                 alt="Secure Dashboard Icon"
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded object-cover"
               />
-              <span className="text-gray-500 font-mono text-sm">03</span>
+              <span className="text-gray-500 font-mono text-sm">04</span>
             </div>
             <h3 className="text-lg font-medium text-[#E1E0CC] mt-2">Manage & Share.</h3>
 
@@ -380,12 +428,12 @@ function FeaturesSection() {
 
           <Link
             href="/dashboard"
-            className="flex items-center gap-1 text-xs sm:text-sm text-[#E1E0CC] font-medium mt-4 group/link self-start"
+            className="flex items-center gap-1 text-xs sm:text-sm text-[#E1E0CC] font-medium mt-4 group/link self-start relative z-20"
           >
             <span>Learn more</span>
             <ArrowRight className="w-4 h-4 transform -rotate-45 transition-transform duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
           </Link>
-        </motion.div>
+        </SpotlightCard>
       </motion.div>
     </section>
   );
