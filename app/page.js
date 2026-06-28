@@ -448,7 +448,7 @@ function FooterSection() {
     <footer className="bg-black text-[#E1E0CC]/70 py-16 px-4 md:px-8 border-t border-neutral-900">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 mb-12">
         {/* Left branding col */}
-        <div className="md:col-span-5 flex flex-col gap-4">
+        <div className="md:col-span-4 flex flex-col gap-4">
           <div className="text-2xl font-bold text-[#E1E0CC] tracking-wide flex items-center">
             Prisma<span className="text-primary text-xs ml-0.5 align-super">*</span>
           </div>
@@ -468,21 +468,33 @@ function FooterSection() {
           <a href="/dashboard" className="text-sm hover:text-[#E1E0CC] transition-colors duration-200">Dashboard</a>
         </div>
 
-        {/* Links col 2 */}
-        <div className="md:col-span-3 flex flex-col gap-3">
-          <h4 className="text-xs uppercase tracking-widest font-semibold text-[#E1E0CC] mb-1">Tech Stack</h4>
-          <span className="text-sm">Next.js 14 & Tailwind</span>
-          <span className="text-sm">Gemini AI Engine</span>
-          <span className="text-sm">YouTube Video API</span>
-          <span className="text-sm">Supabase & Drizzle ORM</span>
-        </div>
-
         {/* Links col 3 */}
         <div className="md:col-span-2 flex flex-col gap-3">
           <h4 className="text-xs uppercase tracking-widest font-semibold text-[#E1E0CC] mb-1">Legal</h4>
           <span className="text-sm cursor-pointer hover:text-[#E1E0CC] transition-colors duration-200">Privacy Policy</span>
           <span className="text-sm cursor-pointer hover:text-[#E1E0CC] transition-colors duration-200">Terms of Use</span>
           <span className="text-sm cursor-pointer hover:text-[#E1E0CC] transition-colors duration-200">Inquiries</span>
+        </div>
+
+        {/* Newsletter col */}
+        <div className="md:col-span-4 flex flex-col gap-3">
+          <h4 className="text-xs uppercase tracking-widest font-semibold text-[#E1E0CC] mb-1">Newsletter</h4>
+          <p className="text-xs text-[#E1E0CC]/50 leading-relaxed mb-1">
+            Subscribe to get the latest updates on AI-curated learning.
+          </p>
+          <form className="flex gap-2 max-w-[280px]" onSubmit={(e) => e.preventDefault()}>
+            <input
+              type="email"
+              placeholder="Your email address"
+              className="bg-neutral-900/60 border border-neutral-800 rounded-lg px-3.5 py-2 text-xs text-[#E1E0CC] placeholder-neutral-600 focus:outline-none focus:border-neutral-700 focus:ring-1 focus:ring-primary/20 w-full transition-all duration-200"
+            />
+            <button
+              type="submit"
+              className="bg-primary text-black rounded-lg px-4 py-2 text-xs font-semibold hover:bg-primary/95 transition-all duration-200 shrink-0 active:scale-[0.97]"
+            >
+              Join
+            </button>
+          </form>
         </div>
       </div>
 
