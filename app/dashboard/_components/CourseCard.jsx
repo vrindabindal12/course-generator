@@ -61,35 +61,36 @@ function CourseCard({ course, refreshData, displayUser = false }) {
   };
 
   return (
-    <div className="bg-[#151515] border border-neutral-800 rounded-xl p-3 hover:border-neutral-700 transition-all duration-300 cursor-pointer shadow-lg shadow-black/30 group">
+    <Link
+      href={
+        course?.publish
+          ? `/course/${course.courseId}`
+          : `/create-course/${course?.courseId}`
+      }
+      className="block bg-[#151515] border border-neutral-800 rounded-xl p-3 hover:border-neutral-700 transition-all duration-300 cursor-pointer shadow-lg shadow-black/30 group"
+    >
       <div className="overflow-hidden rounded-lg w-full h-[200px] relative">
-        <Link
-          href={
-            course?.publish
-              ? `/course/${course.courseId}`
-              : `/create-course/${course?.courseId}`
-          }
-        >
-          <Image
-            src={course?.courseBanner}
-            alt="course"
-            width={300}
-            height={200}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        </Link>
+        <Image
+          src={course?.courseBanner}
+          alt="course"
+          width={300}
+          height={200}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
       </div>
 
       <div className="p-2">
         <h2 className="font-semibold text-base mt-2 flex justify-between items-center text-[#E1E0CC] line-clamp-1">
           {course?.courseOutput?.CourseName}
           {!displayUser && (
-            <DropDown
-              courseId={course?.courseId}
-              handleOnDelete={() => handleOnDelete()}
-            >
-              <HiEllipsisVertical className="text-gray-400 hover:text-[#E1E0CC] transition-colors" />
-            </DropDown>
+            <div onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+              <DropDown
+                courseId={course?.courseId}
+                handleOnDelete={() => handleOnDelete()}
+              >
+                <HiEllipsisVertical className="text-gray-400 hover:text-[#E1E0CC] transition-colors" />
+              </DropDown>
+            </div>
           )}
         </h2>
 
@@ -101,11 +102,9 @@ function CourseCard({ course, refreshData, displayUser = false }) {
           </h2>
 
           {!displayUser && course?.publish == false && (
-            <Link href={`/create-course/${course?.courseId}`}>
-              <h2 className="rounded-full hidden md:block border border-red-500/20 bg-red-500/10 text-red-400 text-[10px] px-2.5 py-0.5 font-medium transition-colors hover:bg-red-500/20">
-                Draft
-              </h2>
-            </Link>
+            <h2 className="rounded-full hidden md:block border border-red-500/20 bg-red-500/10 text-red-400 text-[10px] px-2.5 py-0.5 font-medium transition-colors hover:bg-red-500/20">
+              Draft
+            </h2>
           )}
           <h2 className="rounded-full bg-neutral-900 border border-neutral-800 text-primary text-xs px-2.5 py-1 font-medium">
             {course?.level}
@@ -126,15 +125,13 @@ function CourseCard({ course, refreshData, displayUser = false }) {
       )}
 
       {!displayUser && course?.publish == false && (
-        <Link href={`/create-course/${course?.courseId}`}>
-          <div className="flex items-center justify-center mt-2 md:hidden">
-            <h2 className="rounded-full border border-red-500/20 bg-red-500/10 text-red-400 text-[10px] px-2.5 py-0.5 font-medium transition-colors hover:bg-red-500/20">
-              Draft
-            </h2>
-          </div>
-        </Link>
+        <div className="flex items-center justify-center mt-2 md:hidden">
+          <h2 className="rounded-full border border-red-500/20 bg-red-500/10 text-red-400 text-[10px] px-2.5 py-0.5 font-medium transition-colors hover:bg-red-500/20">
+            Draft
+          </h2>
+        </div>
       )}
-    </div>
+    </Link>
   );
 }
 
