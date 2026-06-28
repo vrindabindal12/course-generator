@@ -8,11 +8,21 @@ import { eq } from "drizzle-orm";
 import { supabase } from "@/lib/supabaseClient";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import SpotlightCard from "../../_components/SpotlightCard";
 
 function CourseCard({ course, refreshData, displayUser = false }) {
   const { toast } = useToast();
+  const router = useRouter();
+
+  const handleCardClick = (e) => {
+    const path = course?.publish
+      ? `/course/${course.courseId}`
+      : `/create-course/${course?.courseId}`;
+    router.push(path);
+  };
+
   const handleOnDelete = async () => {
     try {
       // Delete Banner Image
@@ -63,12 +73,8 @@ function CourseCard({ course, refreshData, displayUser = false }) {
 
   return (
     <SpotlightCard
-      href={
-        course?.publish
-          ? `/course/${course.courseId}`
-          : `/create-course/${course?.courseId}`
-      }
-      className="bg-[#151515] rounded-2xl p-3 hover:border-primary/35 shadow-lg shadow-black/30 group"
+      onClick={handleCardClick}
+      className="bg-[#151515] rounded-2xl p-3 hover:border-primary/35 shadow-lg shadow-black/30 group cursor-pointer"
     >
       <div className="overflow-hidden rounded-lg w-full h-[200px] relative z-20">
         <Image
@@ -84,12 +90,20 @@ function CourseCard({ course, refreshData, displayUser = false }) {
         <h2 className="font-semibold text-base mt-2 flex justify-between items-center text-[#E1E0CC] line-clamp-1">
           {course?.courseOutput?.CourseName}
           {!displayUser && (
-            <div onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+            <div 
+              onClick={(e) => { 
+                e.preventDefault(); 
+                e.stopPropagation(); 
+              }}
+              className="relative z-30"
+            >
               <DropDown
                 courseId={course?.courseId}
                 handleOnDelete={() => handleOnDelete()}
               >
-                <HiEllipsisVertical className="text-gray-400 hover:text-[#E1E0CC] transition-colors" />
+                <div className="p-1 rounded-lg hover:bg-neutral-850 transition-colors">
+                  <HiEllipsisVertical className="text-gray-400 hover:text-[#E1E0CC] w-4 h-4 transition-colors" />
+                </div>
               </DropDown>
             </div>
           )}
