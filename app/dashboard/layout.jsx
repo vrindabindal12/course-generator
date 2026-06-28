@@ -11,7 +11,9 @@ const DashboardLayout = ({children}) => {
     <UserCourseListContext.Provider
     value={{ userCourseList, setUserCourseList }}
   >
-    <div className='bg-black min-h-screen'>
+    <div className='bg-black min-h-screen relative'>
+      {/* Background noise overlay for style unification */}
+      <div className="fixed inset-0 bg-noise opacity-[0.04] pointer-events-none z-30" />
       <div className='md:w-64 hidden md:block'>
         <Sidebar/>
       </div>

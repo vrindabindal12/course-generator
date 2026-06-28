@@ -50,7 +50,9 @@ function UserCourseList() {
   return (
     <div className="mt-12">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="font-semibold text-xl tracking-tight text-[#E1E0CC]">My AI Courses</h2>
+        <h2 className="text-2xl md:text-3xl font-medium tracking-tight text-[#E1E0CC]">
+          My <span className="font-serif italic text-primary font-normal">AI Courses</span>
+        </h2>
         <span className="text-xs text-neutral-500 font-mono">{courseList?.length || 0} active courses</span>
       </div>
 

@@ -4,6 +4,7 @@ import React, { useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight, Check, X, LayoutDashboard, Sparkles, Video, Share2 } from "lucide-react";
+import SpotlightCard from "./_components/SpotlightCard";
 import {
   WordsPullUp,
   WordsPullUpMultiStyle,
@@ -14,12 +15,10 @@ import TestimonialsSection from "./_components/TestimonialsSection";
 import { useToast } from "@/hooks/use-toast";
 
 const navItems = [
-  { name: "Workflow", href: "#how-it-works" },
   { name: "Features", href: "#features" },
   { name: "Benefits", href: "#benefits" },
   { name: "Testimonials", href: "#testimonials" },
-  { name: "Pricing", href: "#pricing" },
-  { name: "Dashboard", href: "/dashboard" }
+  { name: "Pricing", href: "#pricing" }
 ];
 
 const handleSmoothScroll = (e, href) => {
@@ -195,34 +194,7 @@ function BenefitsSection() {
   );
 }
 
-function SpotlightCard({ children, className = "", variants }) {
-  const [coords, setCoords] = useState({ x: 0, y: 0 });
 
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setCoords({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
-
-  return (
-    <motion.div
-      variants={variants}
-      onMouseMove={handleMouseMove}
-      className={`relative overflow-hidden group transition-all duration-300 border border-neutral-800/80 ${className}`}
-    >
-      {/* Background radial spotlight glow */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 z-10"
-        style={{
-          background: `radial-gradient(350px circle at ${coords.x}px ${coords.y}px, rgba(222, 219, 200, 0.08), transparent 80%)`,
-        }}
-      />
-      {children}
-    </motion.div>
-  );
-}
 
 function FeaturesSection() {
   const headerSegments = [

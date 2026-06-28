@@ -2,21 +2,12 @@
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import React from 'react'
-import { UserCourseListContext } from "@/app/_context/UserCourseListContext";
-import { useContext,useEffect } from 'react';
 import { MdOutlineExplore } from "react-icons/md";
 import { TbLogout } from "react-icons/tb";
 import Link from 'next/link';
 import {HiOutlineHome,} from "react-icons/hi2";
 
 const Sidebar = () => {
-     const { userCourseList, setUserCourseList } = useContext(UserCourseListContext);
-    
-      useEffect(() => {
-        setUserCourseList(JSON.parse(localStorage.getItem("userCourseList")));
-      }, []);
-
-
     const path = usePathname();
     const Menu = [
         {
