@@ -3,10 +3,11 @@
 import React, { useState, useRef } from "react";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
-import { Check, ArrowRight } from "lucide-react";
+import { Check, ArrowRight, X, CreditCard } from "lucide-react";
 
 export default function PricingSection() {
   const [billingCycle, setBillingCycle] = useState("monthly"); // "monthly" or "annual"
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
   
   const plans = [
     {
@@ -169,21 +170,65 @@ export default function PricingSection() {
               </div>
 
               {/* Action CTA Button */}
-              <Link href={plan.href} className="block w-full mt-2">
-                <button
-                  className={`w-full py-2.5 rounded-full font-medium text-xs transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${plan.featured
-                    ? "bg-primary text-black hover:bg-[#c9c6b3]"
-                    : "border border-neutral-700 text-[#E1E0CC] hover:bg-neutral-800 hover:border-neutral-600"
-                  }`}
-                >
-                  <span>{plan.cta}</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </Link>
+              {plan.name === "Starter" ? (
+                <Link href={plan.href} className="block w-full mt-2">
+                  <button
+                    className="w-full py-2.5 rounded-full font-medium text-xs transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer border border-neutral-700 text-[#E1E0CC] hover:bg-neutral-800 hover:border-neutral-600"
+                  >
+                    <span>{plan.cta}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </Link>
+              ) : (
+                <div className="block w-full mt-2">
+                  <button
+                    onClick={() => setShowPaymentModal(true)}
+                    className={`w-full py-2.5 rounded-full font-medium text-xs transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${plan.featured
+                      ? "bg-primary text-black hover:bg-[#c9c6b3]"
+                      : "border border-neutral-700 text-[#E1E0CC] hover:bg-neutral-800 hover:border-neutral-600"
+                    }`}
+                  >
+                    <span>{plan.cta}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              )}
             </motion.div>
           ))}
         </motion.div>
       </div>
+
+      {/* Payment coming soon modal */}
+      {showPaymentModal && (
+        <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-[#101010] border border-neutral-800 rounded-2xl max-w-sm w-full p-8 relative shadow-2xl animate-in fade-in zoom-in-95 duration-200 text-center text-[#E1E0CC]">
+            <button
+              onClick={() => setShowPaymentModal(false)}
+              className="absolute top-4 right-4 text-neutral-400 hover:text-white transition-colors cursor-pointer"
+              aria-label="Close modal"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary mx-auto mb-4">
+              <CreditCard className="w-6 h-6" />
+            </div>
+            <h3 className="text-xl font-semibold text-[#E1E0CC] mb-3">
+              Payment Coming Soon!
+            </h3>
+            <p className="text-xs text-neutral-400 leading-relaxed mb-6">
+              We are currently finalizing our secure Stripe checkout integration. Premium features will be available to purchase very soon!
+              <br /><br />
+              For now, feel free to use all the core workspace tools completely for free on our Starter plan.
+            </p>
+            <button
+              onClick={() => setShowPaymentModal(false)}
+              className="w-full bg-primary text-black rounded-full py-2.5 text-xs font-semibold hover:bg-primary/95 transition-all cursor-pointer active:scale-95"
+            >
+              Okay, got it!
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
